@@ -39,3 +39,10 @@ def test_empty_courses_list():
         block_text = page.get_by_test_id('courses-list-empty-view-title-text')
         expect(block_text).to_be_visible()
         expect(block_text).to_have_text('There is no results')
+
+        icon_empty = page.get_by_test_id('courses-list-empty-view-icon')
+        expect(icon_empty).to_be_visible()
+
+        description_text = page.get_by_test_id('courses-list-empty-view-description-text')
+        expect(description_text).to_be_visible()
+        expect(description_text).to_have_text('Results from the load test pipeline will be displayed here')
