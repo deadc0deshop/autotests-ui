@@ -3,7 +3,7 @@ from pages.base_page import BasePage
 from playwright_courses import description_text
 
 
-class CoursesPage(BasePage):
+class CreateCoursePage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
 
@@ -31,7 +31,7 @@ class CoursesPage(BasePage):
         #Область заполнения полей создания курса
         self.create_course_title_input = page.get_by_test_id('create-course-form-title-input').locator('input')
         self.create_course_estimated_time_input = page.get_by_test_id('create-course-form-estimated-time-input').locator('input')
-        self.create_course_description_textarea = page.get_by_test_id('create-course-form-description-input').locator('input').first
+        self.create_course_description_textarea = page.get_by_test_id('create-course-form-description-input').locator('textarea').first
         self.create_course_max_score_input = page.get_by_test_id('create-course-form-max-score-input').locator('input')
         self.create_course_min_score_input = page.get_by_test_id('create-course-form-min-score-input').locator('input')
 
@@ -47,7 +47,7 @@ class CoursesPage(BasePage):
 
     def  check_visible_create_course_title(self):
         expect(self.create_course_title).to_be_visible()
-        expect(self.create_course_title).to_have_text('Create Course')
+        expect(self.create_course_title).to_have_text('Create course')
 
     def click_create_course_button(self):
         self.create_course_button.click()
@@ -87,8 +87,8 @@ class CoursesPage(BasePage):
     def check_visible_preview_image(self):
         expect(self.preview_image).to_be_visible()
 
-    def upload_preview_image(self):
-        self.preview_image_upload_input.set_input_files()
+    def upload_preview_image(self, file_path: str):
+        self.preview_image_upload_input.set_input_files(file_path)
 
     def check_visible_create_course_form(
             self,
@@ -139,7 +139,7 @@ class CoursesPage(BasePage):
 
     def check_visible_exercise_title(self):
         expect(self.exercises_title).to_be_visible()
-        expect(self.exercises_title).to_have_text('Exercise')
+        expect(self.exercises_title).to_have_text('Exercises')
 
     def check_visible_create_exercise_button(self):
         expect(self.create_exercises_button).to_be_visible()
@@ -147,14 +147,14 @@ class CoursesPage(BasePage):
     def click_create_exercise_button(self):
         self.create_exercises_button.click()
 
-    def check_visible_exercise_empy_view(self):
+    def check_visible_exercise_empty_view(self):
         expect(self.exercises_empty_view_icon).to_be_visible()
 
         expect(self.exercises_empty_view_title_text).to_be_visible()
         expect(self.exercises_empty_view_title_text).to_have_text('There is no exercises')
 
         expect(self.exercises_empty_view_description_text).to_be_visible()
-        expect(self.create_course_description_textarea).to_have_text('Click on "Create exercise" button to create new exercise')
+        expect(self.exercises_empty_view_description_text).to_have_text('Click on "Create exercise" button to create new exercise')
 
     def click_delete_exercise_button(self, index: int):
         delete_exercise_button = self.page.get_by_test_id('create-course-exercise-{index}-box-toolbar-delete-exercise-button')
