@@ -8,7 +8,7 @@ from pages.create_course_page import CreateCoursePage
 
 @pytest.mark.courses
 @pytest.mark.regression
-def test_create_course(courses_list_page: CoursesListPage, create_course_page: CreateCoursePage):
+def test_create_course(courses_list_page_with_state: CoursesListPage, create_course_page: CreateCoursePage):
     create_course_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create")
 
     create_course_page.check_visible_create_course_title()
@@ -34,9 +34,9 @@ def test_create_course(courses_list_page: CoursesListPage, create_course_page: C
     )
     create_course_page.click_create_course_button()
 
-    courses_list_page.check_visible_courses_title()
-    courses_list_page.check_visible_create_course_button()
-    courses_list_page.check_visible_course_card(
+    courses_list_page_with_state.check_visible_courses_title()
+    courses_list_page_with_state.check_visible_create_course_button()
+    courses_list_page_with_state.course_view.check_visible(
         index=0, title="Playwright", max_score="100", min_score="10", estimated_time="2 weeks"
     )
 

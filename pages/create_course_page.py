@@ -1,4 +1,7 @@
 from playwright.sync_api import Page, expect
+
+from components.navigation.navbar_component import NavbarComponent
+from components.views.empty_view_component import EmptyViewComponent
 from pages.base_page import BasePage
 from playwright_courses import description_text
 
@@ -7,15 +10,16 @@ class CreateCoursePage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
 
+        self.navbar = NavbarComponent(page)
+        self.preview_empty_view = EmptyViewComponent(page, 'create-course-preview')
+        self.exercises_empty_view = EmptyViewComponent(page, 'create-course-exercises')
+
         #Наименование заголовка страницы
         self.create_course_title = page.get_by_test_id('create-course-toolbar-title-text')
         self.create_course_button = page.get_by_test_id('create-course-toolbar-create-course-button')
 
 
         #Область пустого изображения
-        self.preview_empty_view_icon = page.get_by_test_id('create-course-preview-empty-view-icon')
-        self.preview_empty_view_title_text = page.get_by_test_id('create-course-preview-empty-view-title-text')
-        self.preview_empty_view_description_text = page.get_by_test_id('create-course-preview-empty-view-description-text')
         self.preview_image = page.get_by_test_id('create-course-preview-image-upload-widget-preview-image')
 
 
@@ -39,10 +43,6 @@ class CreateCoursePage(BasePage):
         #Область пустого Exercises
         self.exercises_title = page.get_by_test_id('create-course-exercises-box-toolbar-title-text')
         self.create_exercises_button = page.get_by_test_id('create-course-exercises-box-toolbar-create-exercise-button')
-        self.exercises_empty_view_icon = page.get_by_test_id('create-course-exercises-empty-view-icon')
-        self.exercises_empty_view_title_text = page.get_by_test_id('create-course-exercises-empty-view-title-text')
-        self.exercises_empty_view_description_text = page.get_by_test_id('create-course-exercises-empty-view-description-text')
-
 
 
     def  check_visible_create_course_title(self):
@@ -59,13 +59,11 @@ class CreateCoursePage(BasePage):
         expect(self.create_course_button).to_be_disabled()
 
     def check_visible_image_preview_empty_view(self):
-        expect(self.preview_empty_view_icon).to_be_visible()
+        self.preview_empty_view.check_visible(
+            title='No image selected',
+            description='Preview of selected image will be displayed here'
+        )
 
-        expect(self.preview_empty_view_title_text).to_be_visible()
-        expect(self.preview_empty_view_title_text).to_have_text('No image selected')
-
-        expect(self.preview_empty_view_description_text).to_be_visible()
-        expect(self.preview_empty_view_description_text).to_have_text('Preview of selected image will be displayed here')
 
     def check_visible_image_upload_view(self, is_image_upload: bool = False):
         expect(self.preview_image_upload_icon).to_be_visible()
@@ -148,13 +146,11 @@ class CreateCoursePage(BasePage):
         self.create_exercises_button.click()
 
     def check_visible_exercise_empty_view(self):
-        expect(self.exercises_empty_view_icon).to_be_visible()
+        self.exercises_empty_view.check_visible(
+            title='There is no exercises',
+            description='Click on "Create exercise" button to create new exercise'
+        )
 
-        expect(self.exercises_empty_view_title_text).to_be_visible()
-        expect(self.exercises_empty_view_title_text).to_have_text('There is no exercises')
-
-        expect(self.exercises_empty_view_description_text).to_be_visible()
-        expect(self.exercises_empty_view_description_text).to_have_text('Click on "Create exercise" button to create new exercise')
 
     def click_delete_exercise_button(self, index: int):
         delete_exercise_button = self.page.get_by_test_id('create-course-exercise-{index}-box-toolbar-delete-exercise-button')
