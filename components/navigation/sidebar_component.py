@@ -5,7 +5,7 @@ from components.navigation.sidebar_list_item_component import SidebarListItemCom
 
 import re
 
-class SidebarComponent(BaseComponent):
+class SideBarComponent(BaseComponent):
     def __init__(self, page: Page):
         super().__init__(page)
 
