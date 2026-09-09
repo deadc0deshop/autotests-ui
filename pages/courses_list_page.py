@@ -12,13 +12,12 @@ class CoursesListPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
 
-        self.empty_view = EmptyViewComponent(page, identifier='courses-list')
-        self.course_view = CourseViewComponent(page)
-
         self.navbar = NavbarComponent(page)
         self.sidebar = SideBarComponent(page)
-
         self.toolbar = CoursesListToolbarViewComponent(page)
+        self.course_view = CourseViewComponent(page)
+        self.empty_view = EmptyViewComponent(page, identifier='courses-list')
+
 
 
 
