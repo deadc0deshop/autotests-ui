@@ -1,30 +1,31 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page
 from components.base_component import BaseComponent
+from elements.input import Input
 
 class RegistrationFormComponent(BaseComponent):
     def __init__(self, page: Page):
         super().__init__(page)
 
-        self.email_input = page.get_by_test_id('registration-form-email-input').locator('input')
-        self.login_input = page.get_by_test_id('registration-form-username-input').locator('input')
-        self.password_input = page.get_by_test_id('registration-form-password-input').locator('input')
+        self.email_input = Input(page, 'registration-form-email-input', 'Email')
+        self.login_input = Input(page, 'registration-form-username-input', 'Login')
+        self.password_input = Input(page, 'registration-form-password-input', 'Password')
 
     def fill(self, email: str, login: str, password: str):
         self.email_input.fill(email)
-        expect(self.email_input).to_have_value(email)
+        self.email_input.check_have_value(email)
 
         self.login_input.fill(login)
-        expect(self.login_input).to_have_value(login)
+        self.login_input.check_have_value(login)
 
         self.password_input.fill(password)
-        expect(self.password_input).to_have_value(password)
+        self.password_input.check_have_value(password)
 
     def check_visible(self, email: str, login: str, password: str):
-        expect(self.email_input).to_be_visible()
-        expect(self.email_input).to_have_value(email)
+        self.email_input.check_visible()
+        self.email_input.check_have_value(email)
 
-        expect(self.login_input).to_be_visible()
-        expect(self.login_input).to_have_value(login)
+        self.login_input.check_visible()
+        self.login_input.check_have_value(login)
 
-        expect(self.password_input).to_be_visible()
-        expect(self.password_input).to_have_value(password)
+        self.password_input.check_visible()
+        self.password_input.check_have_value(password)

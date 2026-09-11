@@ -18,9 +18,14 @@ class BaseElement:
 
     def check_visible(self, **kwargs):
         locator = self.get_locator(**kwargs)
-        expect(locator).to_be_visibe()
+        expect(locator).to_be_visible()
 
     def check_have_text(self,text: str,  **kwargs):
         locator = self.get_locator(**kwargs)
         expect(locator).to_have_text(text)
+
+    def check_have_value(self, value:str,  **kwargs):
+        locator = self.get_locator(**kwargs)
+        expect(locator).to_have_value(value)
+
 
