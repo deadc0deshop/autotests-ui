@@ -3,6 +3,7 @@ from components.base_component import BaseComponent
 from elements.button import Button
 from elements.text import Text
 
+import allure
 
 class CreateCourseExercisesToolbarViewComponent(BaseComponent):
     def __init__(self,page):
@@ -12,6 +13,7 @@ class CreateCourseExercisesToolbarViewComponent(BaseComponent):
         self.title = Text(page, 'create-course-exercises-box-toolbar-title-text', 'Title')
         self.exercises_button = Button(page, 'create-course-exercises-box-toolbar-create-exercise-button', 'Exercises button')
 
+    @allure.step('Check visible create course exercises title and button')
     def check_visible(self):
         self.title.check_visible()
         self.title.check_have_text('Exercises')
