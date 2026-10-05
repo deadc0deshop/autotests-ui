@@ -43,7 +43,7 @@ class TestAuthorization:
     @allure.severity(Severity.BLOCKER)
     def test_successful_authorization(self, registration_page: RegistrationPage, dashboard_page: DashboardPage, login_page: LoginPage):
         registration_page.visit('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration')
-        registration_page.registration_form.fill(email = 'user@gmail.com', login = 'user', password = 'password')
+        registration_page.registration_form.fill(email = 'user@gmail.com', username = 'user', password = 'password')
         registration_page.click_registration_button()
 
         dashboard_page.dashboard_toolbar.check_visible()
@@ -65,7 +65,7 @@ class TestAuthorization:
         login_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login")
         login_page.click_registration_link()
 
-        registration_page.registration_form.check_visible(email='', login='', password='')
+        registration_page.registration_form.check_visible(email='', username='', password='')
 
 
 

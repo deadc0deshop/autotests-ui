@@ -1,0 +1,7 @@
+.venv/
+videos/
+allure-results/
+tracing/
+__pycache__/
+.DS_Store
+.env
