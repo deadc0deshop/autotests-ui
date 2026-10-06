@@ -1,11 +1,14 @@
 import pytest
 import allure
 
+from config import settings
 from allure_commons.types import Severity
 from tools.allure.tags import AllureTag
 from tools.allure.epics import AllureEpic
 from tools.allure.features import AllureFeature
 from tools.allure.stories import AllureStory
+from tools.routes import AppRoute
+
 
 @pytest.mark.dashboard
 @pytest.mark.regression
@@ -20,9 +23,9 @@ class TestDashboard:
     @allure.title("Check displaying of dashboard page")
     @allure.severity(Severity.NORMAL)
     def test_dashboard_displaying(self, dashboard_page_with_state ):
-        dashboard_page_with_state.visit('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/dashboard')
+        dashboard_page_with_state.visit(AppRoute.DASHBOARD)
         dashboard_page_with_state.sidebar.check_visible()
-        dashboard_page_with_state.navbar.check_visible('username')
+        dashboard_page_with_state.navbar.check_visible(username=settings.test_user.username)
         dashboard_page_with_state.dashboard_toolbar.check_visible()
         dashboard_page_with_state.scores_chart_view.check_visible('Scores')
         dashboard_page_with_state.courses_chart_view.check_visible('Courses')
