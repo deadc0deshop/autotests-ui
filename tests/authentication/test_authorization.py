@@ -23,6 +23,7 @@ from tools.routes import AppRoute
 @allure.parent_suite(AllureEpic.LMS)
 @allure.sub_suite(AllureStory.AUTHORIZATION)
 class TestAuthorization:
+    @pytest.mark.xdist_group(name="authorization-group")
     @pytest.mark.parametrize(
         "email, password",
         [
@@ -41,6 +42,7 @@ class TestAuthorization:
         login_page.check_visible_wrong_email_or_password_alert()
 
     @allure.title('User login with wrong email or password')
+    @pytest.mark.xdist_group(name="authorization-group")
     @allure.tag(AllureTag.USER_LOGIN)
     @allure.severity(Severity.BLOCKER)
     def test_successful_authorization(self, registration_page: RegistrationPage, dashboard_page: DashboardPage, login_page: LoginPage):
