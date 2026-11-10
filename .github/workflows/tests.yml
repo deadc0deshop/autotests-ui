@@ -48,7 +48,7 @@ jobs:
           : "${TEST_USER_PASSWORD:?Set the TEST_USER_PASSWORD repository secret}"
           {
             printf 'APP_URL=%s\n' "$APP_URL"
-            printf 'HEADLESS=false\n'
+            printf 'HEADLESS=true\n'
             printf 'BROWSERS=["chromium","webkit"]\n'
             printf 'TEST_USER.EMAIL=%s\n' "$TEST_USER_EMAIL"
             printf 'TEST_USER.USERNAME=%s\n' "$TEST_USER_USERNAME"
