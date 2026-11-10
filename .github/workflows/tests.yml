@@ -35,6 +35,27 @@ jobs:
           pip install -r requirements.txt  # Устанавливаем зависимости, указанные в requirements.txt
           playwright install --with-deps  # Устанавливаем браузеры для Playwright (если они не установлены)
 
+      - name: Configure test settings
+        env:
+          APP_URL: ${{ vars.APP_URL }}
+          TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+          TEST_USER_USERNAME: ${{ secrets.TEST_USER_USERNAME }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+        run: |
+          : "${APP_URL:?Set the APP_URL repository variable}"
+          : "${TEST_USER_EMAIL:?Set the TEST_USER_EMAIL repository secret}"
+          : "${TEST_USER_USERNAME:?Set the TEST_USER_USERNAME repository secret}"
+          : "${TEST_USER_PASSWORD:?Set the TEST_USER_PASSWORD repository secret}"
+          {
+            printf 'APP_URL=%s\n' "$APP_URL"
+            printf 'HEADLESS=false\n'
+            printf 'BROWSERS=["chromium","webkit"]\n'
+            printf 'TEST_USER.EMAIL=%s\n' "$TEST_USER_EMAIL"
+            printf 'TEST_USER.USERNAME=%s\n' "$TEST_USER_USERNAME"
+            printf 'TEST_USER.PASSWORD=%s\n' "$TEST_USER_PASSWORD"
+            printf 'TEST_DATA.IMAGE_PNG_FILE=testdata/files/image.png\n'
+          } > .env
+
       # 4. Шаг для запуска тестов с использованием pytest и генерации отчётов Allure
       - name: Run Playwright tests with pytest and generate Allure results
         run: |
