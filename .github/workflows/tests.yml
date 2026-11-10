@@ -14,6 +14,8 @@ on:
 jobs:
   run-tests:
     runs-on: ubuntu-latest  # Указываем, что тесты будут запускаться на последней версии Ubuntu
+    permissions:
+      contents: write
 
     steps:
       # 1. Шаг, который будет клонировать ваш репозиторий на машину GitHub Actions
@@ -55,9 +57,18 @@ jobs:
           allure_results: allure-results  # Указываем каталог с результатами тестов
           allure_history: allure-history  # Указываем каталог для истории отчётов Allure
 
+      - name: Verify Allure report output
+        id: verify_allure_report
+        if: always()
+        run: test -d allure-history && test -n "$(find allure-history -mindepth 1 -print -quit)"
+
       # 7. Шаг для деплоя отчёта Allure на GitHub Pages, чтобы его можно было просматривать в браузере
       - name: Deploy report to Github Pages
-        if: always()  # Выполняется всегда, независимо от успеха других шагов
+        if: >-
+          always() &&
+          steps.verify_allure_report.outcome == 'success' &&
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4  # Используем GitHub Action для публикации отчёта на GitHub Pages
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}  # Токен для аутентификации на GitHub
